@@ -1,10 +1,13 @@
 import { StyleSheet, Image, View, TouchableOpacity, Text } from 'react-native'
 import React from 'react'
 import { COLORS, SIZES } from "../../constants/index";
-import fn1 from "../../assets/images/fn1.jpg"
-export default function ProductCardView() {
+import {Ionicons} from "@expo/vector-icons"
+import {useNavigation} from "@react-navigation/native"
+
+const ProductCardView = React.memo(() => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity onPress={()=>{}}>
+    <TouchableOpacity onPress={()=> navigation.navigate("ProductDetails")}>
       <View style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image 
@@ -16,12 +19,19 @@ export default function ProductCardView() {
             <View style={styles.details}>
                 <Text style={styles.title} numberOfLines={1}> Product Name</Text>
                 <Text style={styles.supplier} numberOfLines={1}> Product Supplier</Text>
-             <Text style={styles.price} numberOfLines={1}> N235657</Text>
+                <Text style={styles.price} numberOfLines={1}> N235657</Text>
              </View>
+             <TouchableOpacity style={styles.addBtn}>
+                <Ionicons name="add-circle" size={35} color={COLORS.primary}/>
+             </TouchableOpacity>
         </View>
     </TouchableOpacity>
   )
-}
+})
+
+
+export default ProductCardView
+
 
 const styles = StyleSheet.create({
     container:{
@@ -61,5 +71,10 @@ const styles = StyleSheet.create({
         fontFamily:"bold",
         fontSize:SIZES.medium,
     },
+    addBtn:{
+        position:"absolute",
+        bottom:SIZES.xSmall,
+        right:SIZES.xSmall
+    }
    
 })

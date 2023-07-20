@@ -12,6 +12,7 @@ export default function ProductRow() {
         horizontal
         data={product}
         renderItem={({item}) => <ProductCardView/>}
+        keyExtractor={(item) => item.toString()}
     />
     </View>
   )

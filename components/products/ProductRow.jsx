@@ -4,9 +4,10 @@ import { COLORS, SIZES } from "../../constants/index";
 import ProductCardView from './ProductCardView';
 import useFetch from '../../hook/useFetch';
 
+
 export default function ProductRow() {
-  const {data, error, isLoading} = useFetch;
-    const product = [1,2,3,4]
+  const {data, error, isLoading} = useFetch();
+  
   return (
     <View style={{marginTop:SIZES.medium, marginBottom: SIZES.xxLarge*3}}>
       {isLoading? (
@@ -17,8 +18,8 @@ export default function ProductRow() {
         <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal
-        data={product}
-        renderItem={() => <ProductCardView/>}
+        data={data}
+        renderItem={({item}) => <ProductCardView item={item}/>}
         keyExtractor={(item) => item._id}
     />
       )}
@@ -26,6 +27,3 @@ export default function ProductRow() {
   )
 }
 
-const styles = StyleSheet.create({
-
-})

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const useFetch = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -8,7 +9,7 @@ const useFetch = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get("http://localhost:3000/api/products/");
+      const response = await axios.get("https://herbeysoft.com/api/products/");
       setData(response.data);
       setIsLoading(false);
     } catch (error) {

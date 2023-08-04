@@ -1,28 +1,43 @@
-import { View, TouchableOpacity, Image, Text, TextInput, StyleSheet, FlatList } from "react-native";
-import React, {useState} from "react";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  Text,
+  TextInput,
+  StyleSheet,
+  FlatList,
+} from "react-native";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, SIZES } from "../constants/index";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import SearchTile from "../components/products/SearchTile";
 
 const Search = () => {
-  const [searchKey, setSearchKey] = useState("")
-  const [serachResult, setSearchResult] = useState([])
+  const [searchKey, setSearchKey] = useState("");
+  const [serachResult, setSearchResult] = useState([]);
   //https://herbeysoft.com/api/products/search/${searchKey}
-  const handleSearch = async() =>{
-      try {
-        const response =await axios.get(`https://herbeysoft.com/api/products/search/${searchKey}`)
-        setSearchResult(response.data)
-      } catch (error) {
-          console.log("failed to get data",  error)
-      }
-  }
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(
+        `https://herbeysoft.com/api/products/search/${searchKey}`
+      );
+      setSearchResult(response.data);
+    } catch (error) {
+      console.log("failed to get data", error);
+    }
+  };
   return (
     <SafeAreaView>
       <View style={styles.searchContainer}>
         <TouchableOpacity>
-          <Ionicons name="camera-outline" style={styles.searchIcon} size={SIZES.xLarge} />
+          <Ionicons
+            name="camera-outline"
+            style={styles.searchIcon}
+            size={SIZES.xLarge}
+          />
         </TouchableOpacity>
         <View style={styles.searchWrapper}>
           <TextInput
@@ -33,23 +48,29 @@ const Search = () => {
           />
         </View>
         <View>
-          <TouchableOpacity style={styles.searchBtn} onPress={()=>handleSearch()}>
-            <Feather name="search" size={24}  />
+          <TouchableOpacity
+            style={styles.searchBtn}
+            onPress={() => handleSearch()}
+          >
+            <Feather name="search" size={24} />
           </TouchableOpacity>
         </View>
       </View>
-      {serachResult.length === 0 ?(
-      <View style={{flex:1}}>
-        <Image
-          source={require('../assets/images/Pose23.png')}
-          style={styles.searchImage}
+      {serachResult.length === 0 ? (
+        <View style={{ flex: 1 }}>
+          <Image
+            source={require("../assets/images/Pose23.png")}
+            style={styles.searchImage}
+          />
+        </View>
+      ) : (
+        <FlatList
+          data={serachResult}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => <SearchTile item={item} />}
+          style={{ marginHorizontal: 12 }}
         />
-      </View>):
-      <FlatList
-        data={serachResult}
-        keyExtractor={(item) => item._id}
-        renderItem={({item}) => (<Text>{item.title}</Text>)}
-      />}
+      )}
     </SafeAreaView>
   );
 };
@@ -101,10 +122,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  searchImage:{
-    resizeMode:"contain",
-    width: SIZES.width-80,
-    height: SIZES.height-300,
-    opacity:0.9
-  }
+  searchImage: {
+    resizeMode: "contain",
+    width: SIZES.width - 80,
+    height: SIZES.height - 300,
+    opacity: 0.9,
+  },
 });
